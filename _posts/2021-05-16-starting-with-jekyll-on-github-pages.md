@@ -5,3 +5,7 @@ date: 2021-05-16 17:45:00 -0000
 ---
 
 # Thinking about a blog
+
+- template repo
+- gh pages and actions down
+- config weird
