@@ -18,5 +18,5 @@ date: 2021-05-16 17:45:00 -0000
 - template works => caveat: updates to github-pages gem could require updating locally
 
 # TODO
-- flesh out bullet points
+- flesh out bullet points, add relevant sources (gh and jekyll docs, status page, stackoverflow)
 - read about jekyll drafts
