@@ -19,4 +19,5 @@ date: 2021-05-16 17:45:00 -0000
 
 # TODO
 - flesh out bullet points, add relevant sources (gh and jekyll docs, status page, stackoverflow)
+- add readme to template repo (explain actvation of gh pages and linkt to gh and jekyll docs)
 - read about jekyll drafts
