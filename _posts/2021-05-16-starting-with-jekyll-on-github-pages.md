@@ -52,7 +52,7 @@ After double checking the [docs] and editing a few files just to trigger rebuild
 
 Running `bundle exec jekyll serve` lead to me running into further problems, namely **Error: no implicit conversion of Hash into Integer**.
 Googling that didn't really turn anything up and I did not manage to fix it.
-I suspect it to be an incompatability of the 'github-pages' gem with my ruby version.
+I suspect it to be an incompatability of the `github-pages` gem with my ruby version.
 So I turned back to the wording of the emails I received and found out [it could actually be a problem with GitHub].
 Checking [their status page] told me it was!
 Unlucky me, seeking out to setup this blog on a day where GitHub Pages, GitHub Actions and their API Requests had troubles.
@@ -93,7 +93,7 @@ Yay! A working blog!
 Well, wasn't that a ride.
 From that behavior described above I conclude two things:
 
-1. The empty `baseurl` leads to a a situation where the style are not found at path where they are looked for.
+1. The empty `baseurl` leads to a a situation where the styles are not found at the path where they are looked for.
 
 2. The style names that are set via the GithHub UI are not functional and sadly lead to a silent failure.
    I haven't had any luck with remote themes either.
