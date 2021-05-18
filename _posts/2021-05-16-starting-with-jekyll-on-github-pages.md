@@ -4,20 +4,100 @@ title: "A bumpy ride to Jekyll on Github Pages"
 date: 2021-05-16 17:45:00 -0000
 ---
 
+So on Sunday I decided to finally setup a blog to document some of my projects, hopefully in a personal and helpful manner.
+This first blog post is exactly about how I got here after a long day of several problems.
+
 # Thinking about a blog
 
-- no one click option on gh, felt it could be a rocky road
-- site,js => selfhosted, tls etc,
-- gh edit file in browser online okay => will write more about browser-only setup
-- local jekyll necessary to generate => needs ruby, bundler both can go wrong
-- local jekyll serving did not work (wrong ruby version?)
-- template repo idea
-- tried setting/changing config keys
-- gh pages and actions down
-- config weird => preset baseurl option fucks with gh/jekyll
-- template works => caveat: updates to github-pages gem could require updating locally
+I already have a small website (literally one [index.html]) just about me hosted on Github Pages.
+Adding a blog where I'm already set up seemed obvious.
+While reading the docs about how to add Jekyll to GitHub Pages I felt like it could be troublesome and started looking for alternatives.
 
-# TODO
-- flesh out bullet points, add relevant sources (gh and jekyll docs, status page, stackoverflow)
-- add readme to template repo (explain actvation of gh pages and linkt to gh and jekyll docs)
-- read about jekyll drafts
+A long time ago I tried out WordPress, but I wanted something more code- and version-controlled.
+I remembered I've read about a thing promising an easy personal website and started looking through my [Pocket] collection to find it.
+Turns out that thing is called [Site.js], which uses an embedded [Hugo] to build static websites.
+It also offers much, much more, like server-side code, a database, an owncast instance, etc.
+While I do have a VPS rented (over here at [Contabo]) and it sounds pretty awesome I did not feel like trying it out yet,
+as I imagined being able to write the blog online in the browser.
+GitHub does offer editing files in the browser so we're back to GitHub Pages with its Jekyll integration.
+Surely there are more alternatives (which I would be glad to hear about), but I wanted to get that blog set up that day.
+
+[index.html]: https://github.com/SilvanCodes/silvancodes.github.io/blob/master/index.html
+[pocket]: https://getpocket.com/
+[site.js]: https://sitejs.org
+[hugo]: https://gohugo.io
+[contabo]: https://contabo.com/en/
+
+# GitHub & Jekyll
+
+The [docs] tell you to install ruby (the language) as well as bundler and Jekyll (two 'gems' a.k.a software packages in the ruby world) on your local system.
+Sucks, right? I mean why can they build and serve those Jekyll files once they are in the repo and I can go and happily only ever write blog posts in the browser,
+but they require me to do a local bootstrapping and mangling with configuration files?
+That got me started on an idea: once I've set up the repo I should be able to use GitHubs template functionality and woila! there should be a one-click solution to starting your Jekyll blog (after you activated Github Pages for the repo).
+We'll come back to that idea later.
+
+So I'm running an arch linux system right now so I did [this] first, checked the [requirements] and then followed those [installation instructions] from Jekyll.
+So far, so good.
+Further following the GitHub Pages [docs] I created an empty repository online and initialized a local one where I wanted the blog to live.
+The first problems appeared when running `jekyll new .`.
+The `bundler` gem potentially asks for a directory which is better left as what they suggest, as it is a project local directory which I first mistook as a global gems directory.
+But what do you know when a new language and new tooling is thrown at you?
+Also I missed creating and setting the `GEM_HOME` path as suggested in the [installation instructions], my bad.
+So after two or three attempts to fix these paths `jekyll new .` ran successfully. Cool!
+I changed the `Gemfile` as described, being a little confused about the 'github-pages' gem version being a single number (214 in my case).
+Further following the [docs] I finally pushed the local repo to my GitHub repo and turned on GitHub Pages.
+Soon I received an email notifying me about a **Page build failure: Unable to build page. Please try again later.**
+Oh, sweet, sweet technology!
+After double checking the [docs] and editing a few files just to trigger rebuilds resulting in the same email, I decided to try running jekyll locally.
+
+Running `bundle exec jekyll serve` lead to me running into further problems, namely **Error: no implicit conversion of Hash into Integer**.
+Googling that didn't really turn anything up and I did not manage to fix it.
+I suspect it to be an incompatability of the 'github-pages' gem with my ruby version.
+So I turned back to the wording of the emails I received and found out [it could actually be a problem with GitHub].
+Checking [their status page] told me it was!
+Unlucky me, seeking out to setup this blog on a day where GitHub Pages, GitHub Actions and their API Requests had troubles.
+I subscribed to the incident and waited for a notification that the problems where fixed.
+
+In the late afternoon said notification arrived on my phone (For updates they send emails, but once the problem is fixed you can even get a SMS if you want. Pretty nifty!).
+So remember the template repository?
+After all files were correctly generated by that `jekyll new .` command I marked that repo as a template, so for this blog I used exactly that template.
+Enabling GitHub Pages for the new repo from the template I was exited to finally see a Jekyll blog online.
+But what I got was some pretty messy HTML, it looked like this:
+
+![messy jekyll html](/assets/images/messy_jekyll_html.png)
+
+I updated the theme via the repos settings and then that:
+
+![empty jekyll html](/assets/images/empty_jekyll_html.png)
+
+The response from GitHub Pages suddently returned an empty document. :(
+After fiddling with the `_config.yml` myself for a short time I turned to more googling.
+Relatively quickly I found [this article] on StackOverflow indicating the line stating `baseurl: "" # the subpath of your site, e.g. /blog` could cause problems.
+I want to emphasize that that line was generated like this and nothing in the [docs] or [installation instructions] talked about it.
+After commenting it out and changing back to the `minima` theme by editing the `_config.yml` manually:
+
+![working jekyll html](/assets/images/working_jekyll_html.png)
+
+Yay! A working blog!
+
+[docs]: https://docs.github.com/en/github-ae@latest/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+[this]: https://jekyllrb.com/docs/installation/other-linux/#archlinux
+[requirements]: https://jekyllrb.com/docs/installation/#requirements
+[installation instructions]: https://jekyllrb.com/docs/installation/ubuntu/
+[it could actually be a problem with github]: https://stackoverflow.com/questions/40176947/jekyll-page-build-failure
+[their status page]: https://www.githubstatus.com
+[this article]: https://stackoverflow.com/a/64778847/8722320
+
+# Concluding thoughts
+
+Well, wasn't that a ride.
+From that behavior described above I conclude two things:
+
+1. The empty `baseurl` leads to a a situation where the style are not found at path where they are looked for.
+
+2. The style names that are set via the GithHub UI are not functional and sadly lead to a silent failure.
+   I haven't had any luck with remote themes either.
+
+If you want to have at least that same basic setup you can go to [this repository] and follow the README to be up and running with your blog in minutes.
+
+[this repository]: https://github.com/SilvanCodes/blog-template
