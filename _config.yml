@@ -22,7 +22,6 @@ title: SilvanCodes 'n' blogs
 email: silvancodes@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   I blog about tech and how I think the world should be.
-  General life topics will make their way in from time to time.
 url: "https://blog.silvan.codes" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: SilvanCodes
 github_username: SilvanCodes
