@@ -20,7 +20,7 @@ I wanted to have a browser only solution, so I hit up my favorite search engine 
 After fiddling around with [Colab] and installing [MineRl] according to their instructions I ran into a problem.
 The MineRl gym environment requires a display! Some searching turned up related discussions and problems:
 - https://github.com/minerllabs/minerl/issues/224
-- - https://github.com/minerllabs/minerl/issues/63
+- https://github.com/minerllabs/minerl/issues/63
 - https://github.com/minerllabs/minerl/issues/34
 - https://github.com/minerllabs/minerl/issues/68
 
