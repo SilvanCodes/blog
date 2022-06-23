@@ -1,0 +1,25 @@
+{
+    "name": "Development Configuration",
+    "dockerComposeFile": [
+        // In case you want to startup some infrastructure service
+        // "../docker-compose.yml",
+        "docker-compose.yml"
+    ],
+    "service": "development",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "gitpod",
+    // In case anything is supposed to run once, initially.
+    "onCreateCommand": "bash -i -c 'bundle install'",
+    // "updateContentCommand": "bash -i -c 'direnv allow'",
+    "extensions": [
+        "me-dutour-mathieu.vscode-github-actions",
+        "eamodio.gitlens",
+        "ms-azuretools.vscode-docker",
+    ],
+    "settings": {
+        "gitlens": {
+            "showWelcomeOnInstall": false,
+            "showWhatsNewAfterUpgrades": false
+        }
+    }
+}
